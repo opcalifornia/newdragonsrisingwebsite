@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/*
+  Palette
+  -------
+  --red-core is a PLACEHOLDER sampled by eye from the NDR brand's typical
+  dragon-crest red, NOT extracted from the actual logo file (network
+  access to fetch it was unavailable this session, and no logo asset has
+  been supplied yet). When the real logo file is provided, re-sample the
+  exact hex and update the three --red-* values below — everything else
+  in the system (buttons, focus rings, rimlight, card specular highlight)
+  derives from this ramp, so correcting it here corrects the whole site.
+
+  The ramp exists so red can do lighting work (shadow/core/highlight)
+  instead of sitting flat on top of black.
+*/
+:root {
+  --black: #000000;
+  --surface: #121212;
+  --surface-raised: #181818;
+  --surface-border: #262626;
+
+  --white: #f5f3ef;
+  --text-primary: #f5f3ef;
+  --text-body: #d8d3ca;
+  --text-muted: #948e83;
+
+  /* PLACEHOLDER ramp — see note above */
+  --red-shadow: #3a0b10;
+  --red-core: #c41e2e;
+  --red-highlight: #ff4b54;
+
+  --font-display: var(--font-cinzel);
+  --font-body: var(--font-inter);
+}
+
+@theme inline {
+  --color-black: var(--black);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-border: var(--surface-border);
+
+  --color-white: var(--white);
+  --color-text-primary: var(--text-primary);
+  --color-text-body: var(--text-body);
+  --color-text-muted: var(--text-muted);
+
+  --color-red-shadow: var(--red-shadow);
+  --color-red-core: var(--red-core);
+  --color-red-highlight: var(--red-highlight);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+* {
+  border-color: var(--surface-border);
+}
+
+body {
+  background: var(--black);
+  color: var(--text-body);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: var(--red-core);
+  color: var(--white);
+}
+
+:focus-visible {
+  outline: 2px solid var(--red-highlight);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
