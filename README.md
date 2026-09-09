@@ -78,15 +78,50 @@ Placeholder/mock content in this build, clearly marked in code and UI:
   old site's `/blog` index); full article bodies were never provided and
   are intentionally left unfilled rather than invented.
 
+## Auth / member portal
+
+Implemented with credentials (email/password) auth rather than NextAuth
+or Clerk — no OAuth app or Clerk account exists in this environment to
+wire either up, and this gets the full flow (signup, login, logout,
+sessions, role gating) working end-to-end without one. Built following
+Next.js's own recommended pattern (`node_modules/next/dist/docs/01-app/
+02-guides/authentication.md`), not a custom scheme:
+
+- Stateless sessions: signed JWT (`jose`) in an httpOnly cookie
+  (`src/lib/auth/session.ts`)
+- Passwords hashed with scrypt (`src/lib/auth/password.ts`, no extra
+  dependency)
+- `src/lib/auth/dal.ts` — a Data Access Layer with `verifySession()`
+  (redirects if unauthenticated) and `getOptionalSession()` (doesn't),
+  both request-cached
+- `src/proxy.ts` — optimistic route protection. **Note:** this Next.js
+  version renamed Middleware to Proxy; the file is `proxy.ts`, exporting
+  a `proxy` function, not `middleware.ts`
+- Role gating (student/instructor/admin) demonstrated on `/account`
+
+**The one real gap: there is no database.** `src/lib/auth/mock-db.ts` is
+an in-memory `Map`, clearly flagged in its own file header — it resets
+on every server restart and isn't shared across serverless instances in
+production. It's enough to exercise and test the full flow (and was:
+signup, logout, re-login, and duplicate-email rejection were all
+verified against the running dev server), but a real database (e.g.
+Postgres via Vercel Postgres/Neon/Supabase) needs to replace it before
+launch. Only `src/lib/auth/mock-db.ts` needs to change — nothing that
+calls it does.
+
+`SESSION_SECRET` has an insecure dev-only fallback so `npm run dev`
+works without an `.env` file; generate a real one (`openssl rand -base64
+32`) and set it before deploying.
+
 ## Not yet wired (needs real credentials/accounts to go further)
 
 - **Stripe** — cart and checkout UI are complete; no `STRIPE_SECRET_KEY`
   / `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` exist in this environment, so
   checkout renders a real order summary with payment intentionally
   disabled rather than a fake success path.
-- **Auth / member portal** (NextAuth or Clerk, role gating for
-  guest/student/instructor/admin) — not implemented. The Membership page
-  and forms are UI-only.
+- **A real database** — see Auth above; also needed to persist shop
+  orders, module enrollment, and progress tracking beyond the mock data
+  currently on `/account`.
 - **Video hosting** (Mux or Cloudflare Stream) for gated module lessons,
   progress tracking, and completion certificates — not implemented.
 - **Contact/booking/affiliate forms** — render and validate client-side
