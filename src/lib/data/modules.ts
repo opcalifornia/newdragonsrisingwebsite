@@ -23,7 +23,7 @@ export type TrainingModule = {
   instructorSlug: string;
   prerequisites: string[];
   whatYouLearn: string[];
-  curriculum: { title: string; lessons: string[] }[];
+  curriculum: { title: string; lessons: { id: string; title: string }[] }[];
 };
 
 export const trainingModules: TrainingModule[] = [
@@ -45,11 +45,17 @@ export const trainingModules: TrainingModule[] = [
     curriculum: [
       {
         title: "Module 1 — Advanced Angles",
-        lessons: ["Angle combinations", "Broken rhythm timing"],
+        lessons: [
+          { id: "angle-combinations", title: "Angle combinations" },
+          { id: "broken-rhythm-timing", title: "Broken rhythm timing" },
+        ],
       },
       {
         title: "Module 2 — Disarms & Retention",
-        lessons: ["Live disarm drills", "Retention against resistance"],
+        lessons: [
+          { id: "live-disarm-drills", title: "Live disarm drills" },
+          { id: "retention-against-resistance", title: "Retention against resistance" },
+        ],
       },
     ],
   },
@@ -71,11 +77,17 @@ export const trainingModules: TrainingModule[] = [
     curriculum: [
       {
         title: "Module 1 — Foundations",
-        lessons: ["Stance and grip", "The 12 strikes"],
+        lessons: [
+          { id: "stance-and-grip", title: "Stance and grip" },
+          { id: "the-12-strikes", title: "The 12 strikes" },
+        ],
       },
       {
         title: "Module 2 — Partner Drills",
-        lessons: ["Sinawali basics", "Controlled sparring intro"],
+        lessons: [
+          { id: "sinawali-basics", title: "Sinawali basics" },
+          { id: "controlled-sparring-intro", title: "Controlled sparring intro" },
+        ],
       },
     ],
   },
@@ -97,11 +109,17 @@ export const trainingModules: TrainingModule[] = [
     curriculum: [
       {
         title: "Module 1 — Footwork & Patterns",
-        lessons: ["Triangle footwork", "Pattern combinations"],
+        lessons: [
+          { id: "triangle-footwork", title: "Triangle footwork" },
+          { id: "pattern-combinations", title: "Pattern combinations" },
+        ],
       },
       {
         title: "Module 2 — Stick & Dagger",
-        lessons: ["Dagger retention", "Combined weapon flow"],
+        lessons: [
+          { id: "dagger-retention", title: "Dagger retention" },
+          { id: "combined-weapon-flow", title: "Combined weapon flow" },
+        ],
       },
     ],
   },
@@ -123,7 +141,10 @@ export const trainingModules: TrainingModule[] = [
     curriculum: [
       {
         title: "Module 1 — Principles",
-        lessons: ["Origins of the Mestizo Method", "Cross-discipline drilling"],
+        lessons: [
+          { id: "origins-of-the-mestizo-method", title: "Origins of the Mestizo Method" },
+          { id: "cross-discipline-drilling", title: "Cross-discipline drilling" },
+        ],
       },
     ],
   },

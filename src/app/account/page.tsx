@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { verifySession, getUser } from "@/lib/auth/dal";
 import { logout } from "@/app/actions/auth";
 import { RattanDivider } from "@/components/ui/rattan-divider";
+import { getEnrollmentsForUser, computeProgress } from "@/lib/auth/enrollment-db";
+import { getModuleBySlug } from "@/lib/data/modules";
 
 export const metadata: Metadata = { title: "My Account" };
 
@@ -11,20 +14,20 @@ const roleLabels = {
   admin: "Administrator",
 } as const;
 
-/**
- * Mock enrollment/progress data — there is no real enrollment or video
- * progress system wired up yet (no Mux/Cloudflare Stream credentials).
- * This demonstrates the intended UI/role-gating shape.
- */
-const mockEnrollments = [
-  { moduleSlug: "esgrima-basics", title: "Esgrima Basics", progress: 60 },
-  { moduleSlug: "kali-advanced-techniques", title: "Kali Advanced Techniques", progress: 10 },
-];
-
 export default async function AccountPage() {
   // Redirects to /login if there is no session — see src/lib/auth/dal.ts
   const session = await verifySession();
   const user = await getUser();
+
+  const enrollments = await getEnrollmentsForUser(session.userId);
+  const enrolledModules = enrollments
+    .map((e) => {
+      const m = getModuleBySlug(e.moduleSlug);
+      if (!m) return null;
+      const totalLessons = m.curriculum.flatMap((u) => u.lessons).length;
+      return { module: m, progress: computeProgress(e, totalLessons) };
+    })
+    .filter((x): x is { module: NonNullable<ReturnType<typeof getModuleBySlug>>; progress: number } => x !== null);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
@@ -55,30 +58,46 @@ export default async function AccountPage() {
 
       <section>
         <h2 className="font-display text-2xl text-white">My Training</h2>
-        <div className="mt-6 space-y-4">
-          {mockEnrollments.map((e) => (
-            <div key={e.moduleSlug} className="rounded-sm border border-surface-border p-5">
-              <div className="flex items-center justify-between">
-                <p className="text-white">{e.title}</p>
-                <p className="text-sm text-text-muted">{e.progress}%</p>
-              </div>
-              <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-surface-border">
-                <div
-                  className="h-full rounded-full bg-red-core"
-                  style={{ width: `${e.progress}%` }}
-                />
-              </div>
-              {e.progress >= 100 && (
-                <p className="mt-3 text-xs text-red-highlight">
-                  Certificate of completion earned
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
+
+        {enrolledModules.length === 0 ? (
+          <p className="mt-6 text-text-muted">
+            You&rsquo;re not enrolled in any training modules yet.{" "}
+            <Link href="/modules" className="text-white underline underline-offset-4">
+              Browse the catalog
+            </Link>
+            .
+          </p>
+        ) : (
+          <div className="mt-6 space-y-4">
+            {enrolledModules.map(({ module: m, progress }) => (
+              <Link
+                key={m.slug}
+                href={`/modules/${m.slug}`}
+                className="block rounded-sm border border-surface-border p-5 hover:border-white/30"
+              >
+                <div className="flex items-center justify-between">
+                  <p className="text-white">{m.title}</p>
+                  <p className="text-sm text-text-muted">{progress}%</p>
+                </div>
+                <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-surface-border">
+                  <div
+                    className="h-full rounded-full bg-red-core"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                {progress >= 100 && (
+                  <p className="mt-3 text-xs text-red-highlight">
+                    Certificate of completion earned
+                  </p>
+                )}
+              </Link>
+            ))}
+          </div>
+        )}
         <p className="mt-4 text-xs text-text-muted">
-          Enrollment and progress tracking are mocked — no video hosting
-          or persistent database is wired up yet. See README.
+          Enrollment and progress are real for this session (stored
+          in-memory — see src/lib/auth/enrollment-db.ts) but not backed
+          by a persistent database or gated by payment yet. See README.
         </p>
       </section>
 
