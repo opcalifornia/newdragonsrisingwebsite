@@ -16,7 +16,7 @@ export default function LineagePage() {
       <AboutTabs active="/about/lineage" />
 
       <Reveal>
-        <p className="text-sm uppercase tracking-[0.2em] text-red-core">
+        <p className="text-sm uppercase tracking-[0.2em] text-red-highlight">
           Lineage
         </p>
         <h1 className="mt-3 font-display text-4xl text-white sm:text-5xl">

@@ -18,7 +18,7 @@ export default function InstructorsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <header className="max-w-2xl">
-        <p className="text-sm uppercase tracking-[0.2em] text-red-core">
+        <p className="text-sm uppercase tracking-[0.2em] text-red-highlight">
           Our Family
         </p>
         <h1 className="mt-3 font-display text-4xl text-white sm:text-5xl">

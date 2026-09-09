@@ -6,6 +6,8 @@ import { getInstructorBySlug } from "@/lib/content/instructors";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { RattanDivider } from "@/components/ui/rattan-divider";
 import { CurriculumPath } from "@/components/modules/curriculum-path";
+import { JsonLd } from "@/components/json-ld";
+import { siteConfig } from "@/lib/site-config";
 
 export function generateStaticParams() {
   return getAllModules().map((m) => ({ slug: m.slug }));
@@ -40,9 +42,27 @@ export default async function ModuleDetailPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          name: m.title,
+          description: m.tagline,
+          provider: {
+            "@type": "Organization",
+            name: siteConfig.name,
+            sameAs: siteConfig.url,
+          },
+          offers: {
+            "@type": "Offer",
+            price: m.priceUsd,
+            priceCurrency: "USD",
+          },
+        }}
+      />
       <div className="grid grid-cols-1 gap-14 lg:grid-cols-[1fr_380px]">
         <div>
-          <p className="text-sm uppercase tracking-[0.2em] text-red-core">
+          <p className="text-sm uppercase tracking-[0.2em] text-red-highlight">
             {m.discipline} · {m.level}
           </p>
           <h1 className="mt-3 font-display text-4xl text-white sm:text-5xl">

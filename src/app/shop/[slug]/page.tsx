@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getAllProducts, getProductBySlug } from "@/lib/data/products";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { AddToCart } from "@/components/shop/add-to-cart";
+import { JsonLd } from "@/components/json-ld";
 
 export function generateStaticParams() {
   return getAllProducts().map((p) => ({ slug: p.slug }));
@@ -30,11 +31,26 @@ export default async function ProductDetailPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          description: product.description,
+          category: product.category,
+          offers: {
+            "@type": "Offer",
+            price: product.priceUsd,
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+          },
+        }}
+      />
       <div className="grid grid-cols-1 gap-14 lg:grid-cols-2">
         <PortraitPlaceholder name={product.name} aspect="aspect-square" />
 
         <div>
-          <p className="text-sm uppercase tracking-[0.2em] text-red-core">
+          <p className="text-sm uppercase tracking-[0.2em] text-red-highlight">
             {product.category}
           </p>
           <h1 className="mt-3 font-display text-3xl text-white sm:text-4xl">

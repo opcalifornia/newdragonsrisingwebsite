@@ -44,7 +44,7 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           <Reveal>
-            <p className="font-display text-sm text-red-core">
+            <p className="font-display text-sm text-red-highlight">
               A Living Synthesis
             </p>
             <h2 className="mt-3 font-display text-3xl text-white sm:text-4xl">

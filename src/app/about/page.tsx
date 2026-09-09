@@ -15,7 +15,7 @@ export default function AboutPage() {
       <AboutTabs active="/about" />
 
       <Reveal>
-        <p className="text-sm uppercase tracking-[0.2em] text-red-core">
+        <p className="text-sm uppercase tracking-[0.2em] text-red-highlight">
           The Association
         </p>
         <h1 className="mt-3 font-display text-4xl text-white sm:text-5xl">

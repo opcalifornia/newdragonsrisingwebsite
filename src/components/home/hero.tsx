@@ -61,7 +61,7 @@ export function Hero() {
       {/* z-plane 3: the crest medallion, a hollow lit frame behind the copy */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-95"
+        className="pointer-events-none absolute inset-0 hidden items-center justify-center opacity-95 md:flex"
       >
         <div className="h-[48vmin] w-[48vmin] max-w-md">
           <HeroScene />

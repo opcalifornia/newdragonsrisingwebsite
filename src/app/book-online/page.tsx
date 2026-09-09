@@ -18,7 +18,7 @@ export default function BookOnlinePage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8">
       <Reveal>
-        <p className="text-sm uppercase tracking-[0.2em] text-red-core">
+        <p className="text-sm uppercase tracking-[0.2em] text-red-highlight">
           Book Online
         </p>
         <h1 className="mt-3 font-display text-4xl text-white sm:text-5xl">

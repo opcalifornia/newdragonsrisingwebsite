@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { siteConfig } from "@/lib/site-config";
 import { CartProvider } from "@/lib/cart-context";
 import { CookieConsent } from "@/components/cookie-consent";
+import { JsonLd } from "@/components/json-ld";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -34,6 +35,26 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${cinzel.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-black text-text-body">
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "SportsActivityLocation",
+            name: siteConfig.name,
+            description: siteConfig.description,
+            url: siteConfig.url,
+            telephone: siteConfig.contact.phone,
+            email: siteConfig.contact.email,
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: siteConfig.contact.address.line1,
+              addressLocality: siteConfig.contact.address.city,
+              addressRegion: siteConfig.contact.address.state,
+              postalCode: siteConfig.contact.address.zip,
+              addressCountry: "US",
+            },
+            sameAs: [],
+          }}
+        />
         <CartProvider>
           <SiteHeader />
           <main className="flex-1">{children}</main>
