@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { siteConfig } from "@/lib/site-config";
 import { CartProvider } from "@/lib/cart-context";
+import { CookieConsent } from "@/components/cookie-consent";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
+          <CookieConsent />
         </CartProvider>
       </body>
     </html>
