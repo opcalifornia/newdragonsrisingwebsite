@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, ShoppingBag, X } from "lucide-react";
 import { primaryNav, siteConfig } from "@/lib/site-config";
 import { LogoMark } from "@/components/ui/logo-mark";
+import { useCart } from "@/lib/cart-context";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { count } = useCart();
 
   return (
     <header className="sticky top-0 z-50 border-b border-surface-border bg-black/85 backdrop-blur">
@@ -32,24 +34,46 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="flex items-center gap-4">
+          <Link
+            href="/cart"
+            aria-label={`Cart, ${count} item${count === 1 ? "" : "s"}`}
+            className="relative hidden text-text-body hover:text-white lg:block"
+          >
+            <ShoppingBag size={20} />
+            {count > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-core px-1 text-[10px] text-white">
+                {count}
+              </span>
+            )}
+          </Link>
+
           <Link
             href="/join"
-            className="rounded-sm border border-red-core px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-core"
+            className="hidden rounded-sm border border-red-core px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-core lg:block"
           >
             Join
           </Link>
-        </div>
 
-        <button
-          type="button"
-          className="text-white lg:hidden"
-          aria-expanded={open}
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+          <Link href="/cart" aria-label="Cart" className="relative lg:hidden">
+            <ShoppingBag size={22} className="text-white" />
+            {count > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-core px-1 text-[10px] text-white">
+                {count}
+              </span>
+            )}
+          </Link>
+
+          <button
+            type="button"
+            className="text-white lg:hidden"
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {open && (
