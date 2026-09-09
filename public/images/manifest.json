@@ -1,0 +1,59 @@
+{
+  "note": "Original photography could not be scraped automatically because this session's network egress is blocked. Every entry below is a PLACEHOLDER pending the real file from the client. Do not treat 'placeholder' status images as final.",
+  "images": [
+    {
+      "filename": "Untitled design_edited_edited.jpg",
+      "subject": "Grandmaster Rudy Torres — hero portrait",
+      "usedOn": ["home:hero"],
+      "status": "placeholder"
+    },
+    {
+      "filename": "Menehune Karate-Do.png",
+      "subject": "Our Vision section image",
+      "usedOn": ["home:vision"],
+      "status": "placeholder"
+    },
+    {
+      "filename": "8T0A1630.JPG",
+      "subject": "Mestizo Method — intro action/portrait shot",
+      "usedOn": ["home:mestizo-method", "about:mestizo-method"],
+      "status": "placeholder"
+    },
+    {
+      "filename": "8T0A1663.JPG",
+      "subject": "Mestizo Method — invitation section",
+      "usedOn": ["home:mestizo-method", "about:mestizo-method"],
+      "status": "placeholder"
+    },
+    {
+      "filename": "8T0A2005.JPG",
+      "subject": "Mestizo Method — conclusion",
+      "usedOn": ["home:mestizo-method", "about:mestizo-method"],
+      "status": "placeholder"
+    },
+    {
+      "filename": "Untitled design (4).png",
+      "subject": "David A. Aviles — instructor portrait",
+      "usedOn": ["home:family", "instructors:david-aviles"],
+      "status": "placeholder"
+    },
+    {
+      "filename": "Untitled design (5).png",
+      "subject": "Tony Ulep — instructor portrait",
+      "usedOn": ["home:family", "instructors:tony-ulep"],
+      "status": "placeholder"
+    },
+    {
+      "filename": "elsa.png",
+      "subject": "Datu Elsa Torres — instructor portrait",
+      "usedOn": ["home:family", "instructors:elsa-torres"],
+      "status": "placeholder"
+    },
+    {
+      "filename": "8485314.webp",
+      "subject": "Wix filler divider graphic — repeated throughout old site",
+      "usedOn": [],
+      "status": "excluded — do not carry forward per build brief"
+    }
+  ]
+}
