@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { usePointerParallax } from "@/hooks/use-pointer-parallax";
-import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
+import { AtmospherePanel } from "@/components/ui/atmosphere-panel";
 
 const HeroScene = dynamic(
   () => import("@/components/three/hero-scene").then((m) => m.HeroScene),
@@ -43,7 +43,7 @@ export function Hero() {
           transition: reduceMotion ? undefined : "transform 0.15s ease-out",
         }}
       >
-        <PortraitPlaceholder name="Mestizo Method" aspect="aspect-[3/4]" />
+        <AtmospherePanel aspect="aspect-[3/4]" />
       </div>
 
       {/* z-plane 2: closer photography, more parallax travel */}
@@ -55,15 +55,15 @@ export function Hero() {
           transition: reduceMotion ? undefined : "transform 0.12s ease-out",
         }}
       >
-        <PortraitPlaceholder name="Esgrima" aspect="aspect-[4/5]" />
+        <AtmospherePanel aspect="aspect-[4/5]" />
       </div>
 
-      {/* z-plane 3: the crest, front-and-center, lit 3D object */}
+      {/* z-plane 3: the crest medallion, a hollow lit frame behind the copy */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-90"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-95"
       >
-        <div className="h-[70vmin] w-[70vmin] max-w-2xl">
+        <div className="h-[48vmin] w-[48vmin] max-w-md">
           <HeroScene />
         </div>
       </div>

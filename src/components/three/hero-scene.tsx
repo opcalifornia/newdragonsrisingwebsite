@@ -28,14 +28,14 @@ export function HeroScene() {
         gl={{ antialias: true, alpha: true }}
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={0.35} />
+          <ambientLight intensity={0.18} />
           <directionalLight
             position={[3, 4, 5]}
-            intensity={1.1}
+            intensity={0.9}
             color="#ffffff"
           />
-          <pointLight position={[-4, -2, -3]} intensity={6} color="#ff4b54" />
-          <pointLight position={[0, -3, 2]} intensity={2.2} color="#c41e2e" />
+          <pointLight position={[-3.5, -1.5, -2]} intensity={2.4} color="#ff4b54" />
+          <pointLight position={[0, -2.5, 1.5]} intensity={1} color="#c41e2e" />
           <HeroCrest pointer={pointer} />
         </Suspense>
       </Canvas>
