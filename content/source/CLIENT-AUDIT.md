@@ -42,6 +42,12 @@ liability waiver.
 | No individual instructor pages | Bios are homepage text blocks only | Instructor index + detail page per person, structured schema so more can be added |
 | No In Memoriam page for Rudy Torres Jr. | His story is folded into the Mestizo Method narrative rather than honored on its own | Dedicated, deliberately quiet/restrained page |
 
+## Trust / moderation
+
+| Found | Problem | Fix |
+|---|---|---|
+| `/groups` (Wix Groups community feed) | Live, public spam post from "Ram Vasekar" advertising an industrial chemical solvent market — completely unrelated to martial arts, clearly unmoderated bot content sitting on the public site | Not carried into the rebuild. Recommend confirming with client whether they want any public community-posting feature at all — the new Membership/Affiliate-a-School flow likely covers the real intent behind the old Groups/Members pages without the unmoderated posting surface |
+
 ## Content gaps (things that don't exist yet on the old site, being added new)
 
 - Training Modules (paid curriculum, video hosting, progress tracking, certificates)
