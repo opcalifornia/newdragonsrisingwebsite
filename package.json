@@ -23,6 +23,7 @@
     "next-mdx-remote": "^6.0.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "resend": "^6.27.0",
     "stripe": "^22.6.2",
     "tailwind-merge": "^3.6.0",
     "three": "^0.186.0",

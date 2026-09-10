@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/motion/reveal";
 import { RattanDivider } from "@/components/ui/rattan-divider";
+import { BookingForm } from "@/components/booking/booking-form";
 
 export const metadata: Metadata = {
   title: "Book Online",
@@ -69,62 +70,9 @@ export default function BookOnlinePage() {
         <h2 className="font-display text-2xl text-white">
           Request a Class Trial or Private Lesson
         </h2>
-        <form className="mt-6 space-y-5">
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <div>
-              <label htmlFor="book-name" className="text-sm text-text-muted">
-                Name
-              </label>
-              <input
-                id="book-name"
-                required
-                className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-              />
-            </div>
-            <div>
-              <label htmlFor="book-phone" className="text-sm text-text-muted">
-                Phone
-              </label>
-              <input
-                id="book-phone"
-                type="tel"
-                className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-              />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="book-type" className="text-sm text-text-muted">
-              What are you booking?
-            </label>
-            <select
-              id="book-type"
-              className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-            >
-              <option>Class trial</option>
-              <option>Private lesson</option>
-              <option>Seminar</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="book-notes" className="text-sm text-text-muted">
-              Notes
-            </label>
-            <textarea
-              id="book-notes"
-              rows={4}
-              className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-            />
-          </div>
-          <button
-            type="submit"
-            className="rounded-sm bg-red-core px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-red-highlight"
-          >
-            Request Booking
-          </button>
-          <p className="text-xs text-text-muted">
-            Not yet connected to a live scheduling backend — see README.
-          </p>
-        </form>
+        <div className="mt-6">
+          <BookingForm />
+        </div>
       </Reveal>
     </div>
   );

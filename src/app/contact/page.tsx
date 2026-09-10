@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/motion/reveal";
 import { siteConfig } from "@/lib/site-config";
+import { ContactForm } from "@/components/contact/contact-form";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -68,49 +69,7 @@ export default function ContactPage() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <form className="space-y-5">
-            <div>
-              <label htmlFor="contact-name" className="text-sm text-text-muted">
-                Name
-              </label>
-              <input
-                id="contact-name"
-                required
-                className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-              />
-            </div>
-            <div>
-              <label htmlFor="contact-email" className="text-sm text-text-muted">
-                Email
-              </label>
-              <input
-                id="contact-email"
-                type="email"
-                required
-                className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-              />
-            </div>
-            <div>
-              <label htmlFor="contact-message" className="text-sm text-text-muted">
-                Message
-              </label>
-              <textarea
-                id="contact-message"
-                rows={6}
-                required
-                className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full rounded-sm bg-red-core px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-highlight"
-            >
-              Send Message
-            </button>
-            <p className="text-xs text-text-muted">
-              Not yet connected to a live email backend — see README.
-            </p>
-          </form>
+          <ContactForm />
         </Reveal>
       </div>
     </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Reveal } from "@/components/motion/reveal";
 import { RattanDivider } from "@/components/ui/rattan-divider";
 import { CardTilt } from "@/components/motion/card-tilt";
+import { AffiliateForm } from "@/components/join/affiliate-form";
 
 export const metadata: Metadata = {
   title: "Membership",
@@ -120,70 +121,7 @@ export default function JoinPage() {
             team will follow up.
           </p>
 
-          <form className="mt-10 space-y-5">
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <div>
-                <label htmlFor="school-name" className="text-sm text-text-muted">
-                  School / instructor name
-                </label>
-                <input
-                  id="school-name"
-                  required
-                  className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-                />
-              </div>
-              <div>
-                <label htmlFor="school-location" className="text-sm text-text-muted">
-                  Location
-                </label>
-                <input
-                  id="school-location"
-                  required
-                  className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="school-email" className="text-sm text-text-muted">
-                Email
-              </label>
-              <input
-                id="school-email"
-                type="email"
-                required
-                className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-              />
-            </div>
-            <div>
-              <label htmlFor="school-disciplines" className="text-sm text-text-muted">
-                Disciplines taught
-              </label>
-              <input
-                id="school-disciplines"
-                className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-              />
-            </div>
-            <div>
-              <label htmlFor="school-message" className="text-sm text-text-muted">
-                Tell us about your school
-              </label>
-              <textarea
-                id="school-message"
-                rows={4}
-                className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full rounded-sm bg-red-core px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-highlight"
-            >
-              Submit Application
-            </button>
-            <p className="text-center text-xs text-text-muted">
-              This form is not yet connected to an email/CRM backend —
-              see README.
-            </p>
-          </form>
+          <AffiliateForm />
         </div>
       </Reveal>
     </div>
