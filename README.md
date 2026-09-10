@@ -150,6 +150,29 @@ running dev server; the "configured" path (session creation, webhook
 signature verification, redirect flow) should get one real test-mode run
 before launch.
 
+## Email (Contact / Booking / Affiliate forms)
+
+Same pattern as Stripe: real code, inert until `RESEND_API_KEY` is set
+(no email provider account exists in this environment). Optionally set
+`RESEND_FROM_EMAIL` once a sending domain is verified with Resend —
+until then it falls back to Resend's shared onboarding address, which
+works but isn't branded.
+
+- `src/lib/email.ts` — `isEmailConfigured()` / `sendEmail()`, mirroring
+  `src/lib/stripe.ts`'s shape.
+- `src/app/api/contact/route.ts` — one endpoint, three form types
+  (contact/booking/affiliate), each with its own Zod schema. User input
+  is HTML-escaped before being placed in the notification email.
+- All three forms (`src/components/contact/`, `booking/`, `join/`) use
+  the shared `useApiForm` hook and always attempt a real submission,
+  showing success / "not connected" / error based on what the server
+  returns — setting `RESEND_API_KEY` is the only remaining step.
+
+**Not exercised against a real Resend account** (none exists here) —
+same caveat as Stripe: the unconfigured-path fallback was verified
+end-to-end (all three forms filled and submitted against the running
+dev server), the actual send should get one real test before launch.
+
 ## Not yet wired (needs real credentials/accounts to go further)
 
 - **A real database** — see Auth above; also needed to persist shop
@@ -159,8 +182,6 @@ before launch.
   and completion certificates — `src/components/modules/lesson-player.tsx`
   is a placeholder player; swapping in a real embed is contained to that
   one component.
-- **Contact/booking/affiliate forms** — render and validate client-side
-  but don't submit anywhere yet (no email/CRM backend configured).
 
 ## Fix-list items completed
 
