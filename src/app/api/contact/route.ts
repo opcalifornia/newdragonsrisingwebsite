@@ -45,16 +45,25 @@ const AffiliateSchema = z.object({
   message: z.string().optional(),
 });
 
+const SeminarRegistrationSchema = z.object({
+  formType: z.literal("seminar"),
+  eventTitle: z.string().min(1),
+  name: z.string().min(1),
+  email: z.email(),
+});
+
 const RequestSchema = z.discriminatedUnion("formType", [
   ContactSchema,
   BookingSchema,
   AffiliateSchema,
+  SeminarRegistrationSchema,
 ]);
 
 const subjects = {
   contact: "New contact form submission",
   booking: "New booking request",
   affiliate: "New affiliate school application",
+  seminar: "New (free) seminar registration",
 };
 
 export async function POST(request: Request) {

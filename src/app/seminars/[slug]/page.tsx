@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllEvents, getEventBySlug } from "@/lib/data/events";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
+import { PaidSeminarRegisterButton, FreeSeminarRegisterForm } from "@/components/seminars/seminar-register";
 
 export function generateStaticParams() {
   return getAllEvents().map((e) => ({ slug: e.slug }));
@@ -53,36 +54,14 @@ export default async function EventDetailPage({
 
       {event.past ? (
         <p className="mt-10 text-text-muted">This event has concluded.</p>
+      ) : event.priceUsd === 0 ? (
+        <div className="mt-10">
+          <FreeSeminarRegisterForm eventTitle={event.title} />
+        </div>
       ) : (
-        <form className="mt-10 max-w-md space-y-4">
-          <div>
-            <label htmlFor="reg-name" className="text-sm text-text-muted">
-              Full name
-            </label>
-            <input
-              id="reg-name"
-              required
-              className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-            />
-          </div>
-          <div>
-            <label htmlFor="reg-email" className="text-sm text-text-muted">
-              Email
-            </label>
-            <input
-              id="reg-email"
-              type="email"
-              required
-              className="mt-1 w-full rounded-sm border border-surface-border bg-surface px-4 py-3 text-white focus-visible:border-red-core"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full rounded-sm bg-red-core px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-highlight"
-          >
-            Register — {event.priceUsd === 0 ? "Free" : `$${event.priceUsd}`}
-          </button>
-        </form>
+        <div className="mt-10">
+          <PaidSeminarRegisterButton eventSlug={event.slug} priceUsd={event.priceUsd} />
+        </div>
       )}
     </div>
   );

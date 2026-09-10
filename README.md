@@ -175,9 +175,15 @@ dev server), the actual send should get one real test before launch.
 
 ## Not yet wired (needs real credentials/accounts to go further)
 
-- **A real database** — see Auth above; also needed to persist shop
-  orders, module enrollment, and progress tracking beyond the mock
-  stores currently backing `/account`.
+- **🔴 HIGH PRIORITY — a real database.** See Auth above; also needed to
+  persist shop orders, module enrollment, and progress tracking beyond
+  the mock stores currently backing `/account`. This is the single
+  biggest gap between "working demo" and "sellable product" — everything
+  currently resets on server restart. Needs the client to spin up a free
+  Postgres instance (Neon, Supabase, or Vercel Postgres — a couple
+  minutes, no card required for Neon's free tier) and hand over the
+  connection string as a `DATABASE_URL` env var; only the three
+  `src/lib/auth/*-db.ts` files need to change once that exists.
 - **Video hosting** (Mux or Cloudflare Stream) for gated module lessons
   and completion certificates — `src/components/modules/lesson-player.tsx`
   is a placeholder player; swapping in a real embed is contained to that

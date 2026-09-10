@@ -53,6 +53,13 @@ export async function POST(request: Request) {
         items,
         totalUsd: (session.amount_total ?? 0) / 100,
       });
+    } else if (metadata.type === "seminar" && metadata.eventTitle) {
+      await recordOrder({
+        userId: metadata.userId || null,
+        stripeSessionId: session.id,
+        items: [{ name: metadata.eventTitle, quantity: 1, priceUsd: (session.amount_total ?? 0) / 100 }],
+        totalUsd: (session.amount_total ?? 0) / 100,
+      });
     }
   }
 

@@ -3,6 +3,7 @@ import * as z from "zod";
 import { getStripe, isStripeConfigured } from "@/lib/stripe";
 import { getProductBySlug } from "@/lib/data/products";
 import { getModuleBySlug } from "@/lib/data/modules";
+import { getEventBySlug } from "@/lib/data/events";
 import { getOptionalSession } from "@/lib/auth/dal";
 
 const CartRequestSchema = z.object({
@@ -23,7 +24,16 @@ const ModuleRequestSchema = z.object({
   moduleSlug: z.string(),
 });
 
-const RequestSchema = z.discriminatedUnion("type", [CartRequestSchema, ModuleRequestSchema]);
+const SeminarRequestSchema = z.object({
+  type: z.literal("seminar"),
+  eventSlug: z.string(),
+});
+
+const RequestSchema = z.discriminatedUnion("type", [
+  CartRequestSchema,
+  ModuleRequestSchema,
+  SeminarRequestSchema,
+]);
 
 /**
  * Creates a Stripe Checkout Session and returns its URL for the client
@@ -88,6 +98,31 @@ export async function POST(request: Request) {
     ];
     metadata = { type: "module", moduleSlug: m.slug, userId: session.userId };
     successPath = `/modules/${m.slug}`;
+  } else if (parsed.data.type === "seminar") {
+    const event = getEventBySlug(parsed.data.eventSlug);
+    if (!event) {
+      return NextResponse.json({ error: "unknown_event" }, { status: 404 });
+    }
+    if (event.past) {
+      return NextResponse.json({ error: "event_concluded" }, { status: 400 });
+    }
+    lineItems = [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: { name: event.title },
+          unit_amount: Math.round(event.priceUsd * 100),
+        },
+        quantity: 1,
+      },
+    ];
+    metadata = {
+      type: "seminar",
+      eventSlug: event.slug,
+      eventTitle: event.title,
+      userId: session?.userId ?? "",
+    };
+    successPath = `/seminars/${event.slug}`;
   } else {
     const resolved = parsed.data.items.map((item) => {
       const product = getProductBySlug(item.slug);
