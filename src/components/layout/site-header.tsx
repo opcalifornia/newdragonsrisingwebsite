@@ -38,10 +38,13 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
+          aria-label={`${siteConfig.shortName} home`}
           className="flex items-center gap-3 font-display text-lg tracking-wide text-white"
         >
           <LogoMark />
-          <span className="hidden sm:inline">{siteConfig.shortName}</span>
+          <span className="hidden sm:inline" aria-hidden="true">
+            {siteConfig.shortName}
+          </span>
         </Link>
 
         <nav className="hidden lg:flex lg:items-center lg:gap-8">

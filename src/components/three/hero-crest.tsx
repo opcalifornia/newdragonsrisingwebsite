@@ -2,7 +2,18 @@
 
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
+// Named imports (not `import * as THREE`) so Turbopack can tree-shake the
+// unused three.js modules — a namespace import made the whole library
+// reachable and inflated the client bundle (Lighthouse flagged ~176KiB of
+// unused JS in this chunk).
+import {
+  Shape,
+  Path,
+  ExtrudeGeometry,
+  CylinderGeometry,
+  MathUtils,
+  type Group,
+} from "three";
 
 function hexPoints(radius: number) {
   const pts: [number, number][] = [];
@@ -29,18 +40,18 @@ export function HeroCrest({
 }: {
   pointer: { x: number; y: number };
 }) {
-  const group = useRef<THREE.Group>(null);
+  const group = useRef<Group>(null);
   const entrance = useRef(0);
 
   const ringGeometry = useMemo(() => {
-    const outer = new THREE.Shape();
+    const outer = new Shape();
     const outerPts = hexPoints(1.5);
     outerPts.forEach(([x, y], i) =>
       i === 0 ? outer.moveTo(x, y) : outer.lineTo(x, y),
     );
     outer.closePath();
 
-    const inner = new THREE.Path();
+    const inner = new Path();
     const innerPts = hexPoints(1.18);
     innerPts.forEach(([x, y], i) =>
       i === 0 ? inner.moveTo(x, y) : inner.lineTo(x, y),
@@ -48,7 +59,7 @@ export function HeroCrest({
     inner.closePath();
     outer.holes.push(inner);
 
-    return new THREE.ExtrudeGeometry(outer, {
+    return new ExtrudeGeometry(outer, {
       depth: 0.16,
       bevelEnabled: true,
       bevelThickness: 0.05,
@@ -59,7 +70,7 @@ export function HeroCrest({
   }, []);
 
   const stickGeometry = useMemo(
-    () => new THREE.CylinderGeometry(0.045, 0.045, 2.0, 12),
+    () => new CylinderGeometry(0.045, 0.045, 2.0, 12),
     [],
   );
 
@@ -73,12 +84,12 @@ export function HeroCrest({
     const targetRotY = idleRotation + pointer.x * 0.3;
     const targetRotX = pointer.y * -0.2;
 
-    group.current.rotation.y = THREE.MathUtils.lerp(
+    group.current.rotation.y = MathUtils.lerp(
       group.current.rotation.y,
       targetRotY,
       0.06,
     );
-    group.current.rotation.x = THREE.MathUtils.lerp(
+    group.current.rotation.x = MathUtils.lerp(
       group.current.rotation.x,
       targetRotX,
       0.06,

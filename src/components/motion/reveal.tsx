@@ -26,8 +26,14 @@ export function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0.4 }}
-      whileInView={{ clipPath: "inset(0 0% 0 0)", opacity: 1 }}
+      // No opacity dimming: the clip-path collapses the element to zero
+      // visible width, which is already fully hidden. Adding opacity < 1
+      // on top of that gets baked into the server-rendered HTML (Framer
+      // Motion computes `initial` synchronously for SSR) so on a slow
+      // connection real users briefly see genuine low-contrast text before
+      // hydration — this is what Lighthouse's color-contrast audit caught.
+      initial={{ clipPath: "inset(0 100% 0 0)" }}
+      whileInView={{ clipPath: "inset(0 0% 0 0)" }}
       // No negative margin: shrinking the intersection root (e.g. "-10%")
       // requires an element to scroll further into the viewport before it
       // registers as "seen" — for a tall section positioned near the end
