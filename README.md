@@ -173,6 +173,18 @@ same caveat as Stripe: the unconfigured-path fallback was verified
 end-to-end (all three forms filled and submitted against the running
 dev server), the actual send should get one real test before launch.
 
+## Analytics (Vercel Analytics)
+
+`@vercel/analytics` is wired in but consent-gated: the cookie banner
+(`src/components/cookie-consent.tsx`) promises analytics only run with
+consent, so `src/components/analytics-gate.tsx` only mounts `<Analytics />`
+once the visitor has chosen "Accept All" or toggled analytics on in
+Preferences — declining or "Necessary Only" keeps it off entirely, and the
+choice takes effect live without a page reload (`src/lib/consent.ts`).
+Vercel Analytics itself needs no further code changes to start collecting
+data — it activates automatically once the site is deployed on Vercel;
+locally/self-hosted it stays a harmless no-op.
+
 ## Not yet wired (needs real credentials/accounts to go further)
 
 - **🔴 HIGH PRIORITY — a real database.** See Auth above; also needed to

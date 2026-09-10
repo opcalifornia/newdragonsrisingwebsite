@@ -2,30 +2,21 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
-type Consent = { necessary: true; analytics: boolean };
-const STORAGE_KEY = "ndr-cookie-consent";
+import { type Consent, readStoredConsent, saveConsent } from "@/lib/consent";
 
 export function CookieConsent() {
+  // Starts false on both server and client so hydration matches; flips
+  // true client-side once we can actually check localStorage.
   const [visible, setVisible] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);
   const [analytics, setAnalytics] = useState(false);
 
   useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (!raw) setVisible(true);
-    } catch {
-      setVisible(true);
-    }
+    if (readStoredConsent() === null) setVisible(true);
   }, []);
 
   function save(consent: Consent) {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
-    } catch {
-      // ignore
-    }
+    saveConsent(consent);
     setVisible(false);
     setShowPreferences(false);
   }
