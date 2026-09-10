@@ -12,6 +12,8 @@ import { siteConfig } from "@/lib/site-config";
 import { getOptionalSession } from "@/lib/auth/dal";
 import { getEnrollment, computeProgress } from "@/lib/auth/enrollment-db";
 import { enrollInModule } from "@/app/actions/enrollment";
+import { isStripeConfigured } from "@/lib/stripe";
+import { EnrollButton } from "@/components/modules/enroll-button";
 
 export function generateStaticParams() {
   return getAllModules().map((m) => ({ slug: m.slug }));
@@ -184,19 +186,27 @@ export default async function ModuleDetailPage({
               )}
             </div>
           ) : session ? (
-            <form action={enrollAction}>
-              <button
-                type="submit"
-                className="mt-6 w-full rounded-sm bg-red-core px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-highlight"
-              >
-                Enroll Now
-              </button>
-              <p className="mt-3 text-center text-xs text-text-muted">
-                Enrollment isn&rsquo;t gated by payment yet — Stripe isn&rsquo;t
-                connected, so this grants access immediately. Production
-                should only enroll after a successful payment (see README).
-              </p>
-            </form>
+            isStripeConfigured() ? (
+              <div className="mt-6">
+                <EnrollButton moduleSlug={slug} />
+              </div>
+            ) : (
+              <form action={enrollAction}>
+                <button
+                  type="submit"
+                  className="mt-6 w-full rounded-sm bg-red-core px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-highlight"
+                >
+                  Enroll Now
+                </button>
+                <p className="mt-3 text-center text-xs text-text-muted">
+                  Enrollment isn&rsquo;t gated by payment yet — Stripe isn&rsquo;t
+                  connected, so this grants access immediately. Once
+                  STRIPE_SECRET_KEY is set, this button switches to real
+                  Stripe Checkout automatically and enrollment happens via
+                  webhook after payment (see README).
+                </p>
+              </form>
+            )
           ) : (
             <Link
               href={`/login?from=/modules/${slug}`}

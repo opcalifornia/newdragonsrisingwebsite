@@ -4,7 +4,9 @@ import { verifySession, getUser } from "@/lib/auth/dal";
 import { logout } from "@/app/actions/auth";
 import { RattanDivider } from "@/components/ui/rattan-divider";
 import { getEnrollmentsForUser, computeProgress } from "@/lib/auth/enrollment-db";
+import { getOrdersForUser } from "@/lib/auth/orders-db";
 import { getModuleBySlug } from "@/lib/data/modules";
+import { isStripeConfigured } from "@/lib/stripe";
 
 export const metadata: Metadata = { title: "My Account" };
 
@@ -28,6 +30,8 @@ export default async function AccountPage() {
       return { module: m, progress: computeProgress(e, totalLessons) };
     })
     .filter((x): x is { module: NonNullable<ReturnType<typeof getModuleBySlug>>; progress: number } => x !== null);
+
+  const orders = await getOrdersForUser(session.userId);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
@@ -95,10 +99,46 @@ export default async function AccountPage() {
           </div>
         )}
         <p className="mt-4 text-xs text-text-muted">
-          Enrollment and progress are real for this session (stored
-          in-memory — see src/lib/auth/enrollment-db.ts) but not backed
-          by a persistent database or gated by payment yet. See README.
+          {isStripeConfigured()
+            ? "Enrollment happens after a successful Stripe payment (via webhook)."
+            : "Stripe isn't connected in this environment, so enrolling grants access immediately with no payment step."}{" "}
+          Progress is stored in-memory (src/lib/auth/enrollment-db.ts), not
+          a persistent database yet — see README.
         </p>
+      </section>
+
+      <RattanDivider className="my-12" />
+
+      <section>
+        <h2 className="font-display text-2xl text-white">Order History</h2>
+        {orders.length === 0 ? (
+          <p className="mt-6 text-text-muted">No orders yet.</p>
+        ) : (
+          <div className="mt-6 space-y-4">
+            {orders.map((order) => (
+              <div key={order.id} className="rounded-sm border border-surface-border p-5">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-text-muted">
+                    {new Date(order.createdAt).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                  <span className="text-white">${order.totalUsd}</span>
+                </div>
+                <ul className="mt-2 space-y-1 text-sm text-text-body">
+                  {order.items.map((item, i) => (
+                    <li key={i}>
+                      {item.name}
+                      {item.variant ? ` (${item.variant})` : ""} × {item.quantity}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {(session.role === "instructor" || session.role === "admin") && (

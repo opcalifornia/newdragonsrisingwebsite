@@ -1,19 +1,46 @@
 "use client";
 
+import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
 
 /**
- * Checkout is not yet wired to a live payment processor — no Stripe
- * keys exist in this environment, and fabricating a working payment
- * flow without real credentials would be actively unsafe. This renders
- * the real order summary from the cart and a disabled submit state so
- * the UI/flow is complete; wiring it to Stripe Checkout or Payment
- * Element is a matter of adding STRIPE_SECRET_KEY /
- * NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY and a /api/checkout route — see
- * README.
+ * Always attempts a real checkout request rather than pre-declaring
+ * "Stripe isn't connected" — the client has no safe way to know that
+ * without exposing a secret, so it asks the server and reacts to what
+ * comes back. With STRIPE_SECRET_KEY set, this redirects to a real
+ * Stripe Checkout Session; without it, /api/checkout returns 503 and
+ * this shows that inline.
  */
 export default function CheckoutPage() {
   const { items, subtotalUsd } = useCart();
+  const [status, setStatus] = useState<"idle" | "loading" | "not_configured" | "error">("idle");
+
+  async function handlePay() {
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "cart",
+          items: items.map((i) => ({ slug: i.slug, variant: i.variant, quantity: i.quantity })),
+        }),
+      });
+
+      if (res.status === 503) {
+        setStatus("not_configured");
+        return;
+      }
+      if (!res.ok) {
+        setStatus("error");
+        return;
+      }
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <div className="mx-auto max-w-xl px-4 py-20 sm:px-6 lg:px-8">
@@ -40,18 +67,26 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      <div className="mt-8 rounded-sm border border-dashed border-red-core/50 bg-red-core/5 p-5 text-sm text-text-body">
-        Payment processing is not connected yet. This build ships the
-        cart and checkout UI end-to-end; the client needs to supply
-        Stripe API keys before this can accept a real payment.
-      </div>
+      {status === "not_configured" && (
+        <div className="mt-8 rounded-sm border border-dashed border-red-core/50 bg-red-core/5 p-5 text-sm text-text-body">
+          Payment processing is not connected yet — add{" "}
+          <code className="text-text-primary">STRIPE_SECRET_KEY</code> to
+          enable real checkout. See README.
+        </div>
+      )}
+      {status === "error" && (
+        <div className="mt-8 rounded-sm border border-dashed border-red-core/50 bg-red-core/5 p-5 text-sm text-text-body">
+          Something went wrong starting checkout. Please try again.
+        </div>
+      )}
 
       <button
         type="button"
-        disabled
-        className="mt-8 w-full cursor-not-allowed rounded-sm bg-surface-border px-6 py-3 text-sm font-medium text-text-muted"
+        onClick={handlePay}
+        disabled={status === "loading" || items.length === 0}
+        className="mt-8 w-full rounded-sm bg-red-core px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-highlight disabled:cursor-not-allowed disabled:opacity-60"
       >
-        Pay ${subtotalUsd} (Stripe not connected)
+        {status === "loading" ? "Redirecting to payment…" : `Pay $${subtotalUsd}`}
       </button>
     </div>
   );
