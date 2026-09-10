@@ -113,17 +113,52 @@ calls it does.
 works without an `.env` file; generate a real one (`openssl rand -base64
 32`) and set it before deploying.
 
+## Payments (Stripe)
+
+Real integration code, not a stub — it's simply inert until two
+environment variables are set, because no Stripe account exists in this
+environment to get real keys from:
+
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET` (from the Stripe CLI's `stripe listen
+  --forward-to localhost:3000/api/webhooks/stripe` in dev, or the
+  Dashboard's webhook config in production, pointed at
+  `/api/webhooks/stripe`)
+
+How it's wired:
+
+- `src/lib/stripe.ts` — `isStripeConfigured()` checks for
+  `STRIPE_SECRET_KEY` rather than assuming; `getStripe()` returns `null`
+  when absent instead of throwing.
+- `src/app/api/checkout/route.ts` — creates a real Stripe Checkout
+  Session for either a cart purchase or a single module enrollment.
+  Prices are always resolved server-side from `src/lib/data/*` — a
+  request body can say *what* to buy, never *what it costs*.
+- `src/app/api/webhooks/stripe/route.ts` — the only place that grants
+  enrollment or records an order, and only on a signature-verified
+  `checkout.session.completed` event. Fulfillment deliberately doesn't
+  happen on the client-side success page: a client redirect to that URL
+  isn't proof anyone paid.
+- The checkout page and the module page's enroll button both always
+  attempt a real request and react to the response, rather than
+  hard-coding "Stripe isn't connected" — so setting both env vars is
+  the entire remaining step. No other code changes.
+
+**Not exercised against a real Stripe account** (none exists here) — the
+"unconfigured" path (503 handling, UI fallback) was verified against the
+running dev server; the "configured" path (session creation, webhook
+signature verification, redirect flow) should get one real test-mode run
+before launch.
+
 ## Not yet wired (needs real credentials/accounts to go further)
 
-- **Stripe** — cart and checkout UI are complete; no `STRIPE_SECRET_KEY`
-  / `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` exist in this environment, so
-  checkout renders a real order summary with payment intentionally
-  disabled rather than a fake success path.
 - **A real database** — see Auth above; also needed to persist shop
-  orders, module enrollment, and progress tracking beyond the mock data
-  currently on `/account`.
-- **Video hosting** (Mux or Cloudflare Stream) for gated module lessons,
-  progress tracking, and completion certificates — not implemented.
+  orders, module enrollment, and progress tracking beyond the mock
+  stores currently backing `/account`.
+- **Video hosting** (Mux or Cloudflare Stream) for gated module lessons
+  and completion certificates — `src/components/modules/lesson-player.tsx`
+  is a placeholder player; swapping in a real embed is contained to that
+  one component.
 - **Contact/booking/affiliate forms** — render and validate client-side
   but don't submit anywhere yet (no email/CRM backend configured).
 
