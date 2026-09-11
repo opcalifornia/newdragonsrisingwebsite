@@ -86,6 +86,14 @@ export default async function ModuleDetailPage({
           </h1>
           <p className="mt-4 text-lg text-text-body">{m.tagline}</p>
 
+          <div className="mt-10">
+            <RattanDivider className="max-w-[6rem]" />
+            <p className="mx-auto mt-6 max-w-xl text-center font-display text-lg italic leading-relaxed text-white/90 sm:text-xl">
+              &ldquo;{m.heritage}&rdquo;
+            </p>
+            <RattanDivider className="mt-6 max-w-[6rem]" />
+          </div>
+
           {!enrollment && (
             <div className="mt-8">
               <PortraitPlaceholder name={m.title} aspect="aspect-[16/9]" className="w-full" />

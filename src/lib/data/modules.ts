@@ -23,6 +23,16 @@ export type TrainingModule = {
   instructorSlug: string;
   prerequisites: string[];
   whatYouLearn: string[];
+  /**
+   * A couple of sentences on where this discipline comes from — written to
+   * set the tone before someone opens a lesson, not to assert specific
+   * unverifiable genealogy. Grounded in two kinds of fact: what's publicly
+   * documented about Filipino martial arts history (e.g. Arnis's status as
+   * the Philippines' national martial art/sport under Republic Act 9850),
+   * and what the client's own site already says about Grandmaster Rudy
+   * Torres and the Mestizo Method. No invented names, dates, or places.
+   */
+  heritage: string;
   curriculum: { title: string; lessons: { id: string; title: string }[] }[];
 };
 
@@ -36,6 +46,8 @@ export const trainingModules: TrainingModule[] = [
     format: ["live-seminar", "in-person"],
     priceUsd: 150,
     instructorSlug: "rudy-torres",
+    heritage:
+      "Kali is older than any dojo it's ever been taught in — refined hand to hand, blade to blade, by generations who needed it to work before it ever needed to be written down. Nothing here is a technique lifted from a book; it's a living inheritance, and every practitioner who has carried it before you trusted it to you the same way it was trusted to them.",
     prerequisites: ["Esgrima Basics", "12+ months active training"],
     whatYouLearn: [
       "Advanced footwork and angling under pressure",
@@ -68,6 +80,8 @@ export const trainingModules: TrainingModule[] = [
     format: ["video", "in-person"],
     priceUsd: 100,
     instructorSlug: "david-aviles",
+    heritage:
+      "These strikes were never confined to a training hall — they were shaped over centuries in backyards and barrios by Filipino families who needed them to survive, then handed down because survival is worth passing on. The basics you learn here are the same ones every generation of this art has started with, taught the same way: hand to hand, not page to page.",
     prerequisites: [],
     whatYouLearn: [
       "Foundational stances and grips",
@@ -100,6 +114,8 @@ export const trainingModules: TrainingModule[] = [
     format: ["video", "live-seminar"],
     priceUsd: 200,
     instructorSlug: "mark-cantu",
+    heritage:
+      "Arnis carries the weight of a nation behind it — declared the Philippines' official national martial art and sport by law, built on centuries of exchange between masters who had far more on the line than a rank test. Every pattern in this course descends from that lineage. You're not studying a system; you're being entrusted with one.",
     prerequisites: ["Esgrima Basics"],
     whatYouLearn: [
       "Arnis-specific footwork patterns",
@@ -132,6 +148,8 @@ export const trainingModules: TrainingModule[] = [
     format: ["in-person"],
     priceUsd: 120,
     instructorSlug: "rudy-torres",
+    heritage:
+      "The Mestizo Method isn't a style someone invented — it's a lifetime Grandmaster Rudy Torres spent drawing Escrima, Arnis, and Kali together into one coherent art, then handing it to the instructors who trained under him to carry forward. What you learn in this module descends directly from that lineage. You're not learning about it — you're joining it.",
     prerequisites: [],
     whatYouLearn: [
       "The core principles behind the Mestizo Method",
