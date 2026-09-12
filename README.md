@@ -48,8 +48,11 @@ things blocked a full 1:1 migration:
    `content/source/` was manually pasted in by the client instead.
 2. **The old site had real content gaps.** All four legal pages
    (Privacy Policy, Terms & Conditions, Refund Policy, Accessibility
-   Statement) were Wix's own unfilled templates, never completed. The
-   `/blog` posts only have excerpts, not full article text. See
+   Statement) were Wix's own unfilled templates, never completed. All
+   six legal pages (those four, plus the new Shipping Policy and
+   Liability Waiver) now have complete, NDR-specific first drafts — see
+   "Legal pages" below, they still need attorney sign-off. The `/blog`
+   posts only have excerpts, not full article text. See
    `content/source/CLIENT-AUDIT.md` for the full list of what the old
    site was actually doing, page by page.
 
@@ -184,6 +187,32 @@ choice takes effect live without a page reload (`src/lib/consent.ts`).
 Vercel Analytics itself needs no further code changes to start collecting
 data — it activates automatically once the site is deployed on Vercel;
 locally/self-hosted it stays a harmless no-op.
+
+## Legal pages
+
+All six routes under `/legal/*` (Privacy Policy, Terms & Conditions,
+Refund Policy, Shipping Policy, Liability Waiver, Accessibility Statement)
+now have complete, business-specific first drafts — not the bullet-point
+outlines they started as. Each one is grounded only in facts that are
+either publicly documented (California law, WCAG 2.2, Arnis's status as
+the Philippines' national martial art) or already established elsewhere
+in this codebase (contact info in `src/lib/site-config.ts`, the real
+providers — Stripe, Resend, Vercel Analytics). Nothing about NDR's actual
+legal history, insurance, or business entity was invented.
+
+Every page still renders the review banner from
+`src/components/legal/legal-page.tsx` (`needsLegalReview`, default `true`)
+saying a licensed attorney hasn't reviewed the text yet — don't remove
+that banner without an actual attorney sign-off. The **Liability Waiver**
+carries a stronger, page-specific version of that warning
+(`waiverReviewNote` in `src/app/legal/liability-waiver/page.tsx`): it's the
+highest-stakes document on the site given real weapons and live sparring,
+and this build has no signature-capture workflow at all yet — that draft
+text is not something to put in front of a real student until both the
+legal review and a real e-signature (or wet-signature-on-file) process
+exist. The Refund Policy's specific windows (30-day returns, 7-day
+enrollment refund, etc.) are a starting policy for the client to adjust,
+not something to treat as fixed.
 
 ## Not yet wired (needs real credentials/accounts to go further)
 

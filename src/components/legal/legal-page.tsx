@@ -3,15 +3,29 @@ import Link from "next/link";
 import { legalNav } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
+const defaultReviewNote = (
+  <>
+    <strong className="text-text-primary">Attorney review pending.</strong>{" "}
+    The old site never had real language here (see{" "}
+    <code className="text-text-primary">content/source/CLIENT-AUDIT.md</code>
+    ) — what follows is a complete draft written for New Dragons Rising&rsquo;s
+    actual business (Stockton, CA; the services, products, and data practices
+    described on this site), not generic filler. It has not yet been reviewed
+    by a licensed attorney and should not be treated as final until it is.
+  </>
+);
+
 export function LegalPage({
   title,
   active,
   needsLegalReview = true,
+  reviewNote = defaultReviewNote,
   children,
 }: {
   title: string;
   active: string;
   needsLegalReview?: boolean;
+  reviewNote?: ReactNode;
   children: ReactNode;
 }) {
   return (
@@ -41,18 +55,7 @@ export function LegalPage({
 
           {needsLegalReview && (
             <div className="mt-6 rounded-sm border border-dashed border-red-core/50 bg-red-core/5 p-5 text-sm text-text-body">
-              <strong className="text-text-primary">
-                Pending legal review.
-              </strong>{" "}
-              The old site&rsquo;s version of this page was Wix&rsquo;s
-              own unfilled template, never completed for New Dragons
-              Rising (see{" "}
-              <code className="text-text-primary">
-                content/source/CLIENT-AUDIT.md
-              </code>
-              ). The text below is placeholder structure, not
-              finished policy — a lawyer needs to draft and review real
-              language before this page can ship live.
+              {reviewNote}
             </div>
           )}
 

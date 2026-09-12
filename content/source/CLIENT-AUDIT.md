@@ -10,19 +10,22 @@ next to "here's what we did about it."
 
 | Found on old site | Problem | Fix in rebuild |
 |---|---|---|
-| Privacy Policy page | Wix's generic unfilled "how to write a privacy policy" template — never actually completed for NDR | New page built as a real route; placeholder body clearly marked "pending legal review" until real, NDR-specific policy text is written and a lawyer signs off |
-| Accessibility Statement page | Same — Wix template with literal `[enter organization / business name]` brackets never filled in | Same treatment; will describe actual practices (WCAG 2.2 AA target, keyboard nav, alt text, contrast) once real |
-| Terms & Conditions page | Same — unfilled Wix template | Same treatment; needs to cover shop purchases, module enrollment, membership subscriptions once those launch |
-| Refund Policy page | Same — unfilled Wix template | Same treatment; needs to cover physical goods, digital downloads, seminar tickets |
-| No Liability Waiver / Assumption of Risk page | Never existed — essential for any martial arts school and currently missing entirely | New page added to the rebuild; flagged that a lawyer must draft/review this before launch, non-negotiable for a contact sport school |
-| No Shipping Policy | Never existed — needed once the shop ships physical goods | New page added |
+| Privacy Policy page | Wix's generic unfilled "how to write a privacy policy" template — never actually completed for NDR | New page built as a real route with a complete draft policy specific to NDR's actual data practices (Stripe, Resend, Vercel Analytics, cookie consent) — still needs attorney sign-off before launch |
+| Accessibility Statement page | Same — Wix template with literal `[enter organization / business name]` brackets never filled in | Finished statement describing actual practices (WCAG 2.2 AA target, keyboard nav, contrast, reduced-motion support) and known gaps (photography alt text, video captions), with a feedback contact |
+| Terms & Conditions page | Same — unfilled Wix template | Complete draft covering accounts, shop/module/seminar purchases, digital content licensing, IP, and governing law — still needs attorney sign-off |
+| Refund Policy page | Same — unfilled Wix template | Complete draft with concrete windows for shop returns, module enrollment, and seminar cancellations — the numbers are a starting policy for the client to adjust, not something to accept as-is |
+| No Liability Waiver / Assumption of Risk page | Never existed — essential for any martial arts school and currently missing entirely | Full standard-form draft added (assumption of risk, release, medical authorization, photo/video release, acknowledgment) — flagged in the loudest terms on the page itself that a California-licensed attorney must review this before a single student signs it, and that the site has no signature-capture workflow yet |
+| No Shipping Policy | Never existed — needed once the shop ships physical goods | New page added, with concrete shipping regions/timelines drafted in |
 | No cookie consent banner | Never existed | Added with preferences, per build brief |
 
 **Bottom line for the client:** none of the four existing legal pages
-ever had real content — this isn't a redesign of their legal copy, it's
-legal copy that needs to be written for the first time. Recommend
-budgeting for actual attorney time before launch, especially for the
-liability waiver.
+ever had real content. All six legal pages now carry complete,
+business-specific first drafts (not template outlines) grounded in what
+this site actually does and what's publicly documented about running a
+business in California — but none of them have been reviewed by a
+licensed attorney yet, and the Liability Waiver in particular should not
+be used to collect a single real signature until one has. Budget real
+attorney time before launch.
 
 ## Copy quality
 
