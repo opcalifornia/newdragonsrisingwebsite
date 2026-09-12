@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/legal/legal-page";
+import { RattanDivider } from "@/components/ui/rattan-divider";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = { title: "Refund Policy" };
@@ -10,6 +11,19 @@ export default function RefundPolicyPage() {
       <p className="text-xs uppercase tracking-wider text-text-muted">
         Last updated: [effective date to be added at launch]
       </p>
+
+      <div className="py-2">
+        <RattanDivider className="max-w-[6rem]" />
+        <p className="mx-auto mt-6 max-w-2xl text-center font-display text-lg italic leading-relaxed text-white/90">
+          What you&rsquo;re purchasing here isn&rsquo;t ordinary information.
+          Every module, every seminar, every hour of instruction carries
+          generations of discipline, technique, and hard-won experience —
+          knowledge entrusted hand to hand long before it ever reached a
+          screen, and entrusted to you now the same way. That&rsquo;s not
+          something that can be handed back once it&rsquo;s been shared.
+        </p>
+        <RattanDivider className="mt-6 max-w-[6rem]" />
+      </div>
 
       <p>
         All sales are final. New Dragons Rising does not offer refunds on
