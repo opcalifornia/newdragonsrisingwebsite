@@ -210,9 +210,12 @@ highest-stakes document on the site given real weapons and live sparring,
 and this build has no signature-capture workflow at all yet — that draft
 text is not something to put in front of a real student until both the
 legal review and a real e-signature (or wet-signature-on-file) process
-exist. The Refund Policy's specific windows (30-day returns, 7-day
-enrollment refund, etc.) are a starting policy for the client to adjust,
-not something to treat as fixed.
+exist. Per the client's direction, the Refund Policy states all sales are
+final (shop, module enrollment, seminars) with one standard carve-out for
+items that arrive defective or incorrect — that carve-out exists because
+most jurisdictions don't let a business waive it away even under a strict
+no-refunds policy, which is exactly the kind of thing attorney review
+should confirm still applies here.
 
 ## Not yet wired (needs real credentials/accounts to go further)
 
