@@ -8,12 +8,11 @@ browsing purposes only, published via GitHub Pages.
 sub-pages, Instructors, Training Modules, Shop, Seminars, Blog, Legal,
 Join, Contact, Testimonials, Book Online, Login/Signup, Cart) is here as
 real, navigable content, captured straight from the actual running app
-after its entrance animations settle.
+after scrolling the full page so every scroll-triggered entrance
+animation settles, then stripping all JavaScript so nothing tries to
+hydrate against a server that isn't there.
 
-**What doesn't work here:** anything that needs a server. Each page is a
-frozen HTML snapshot with all JavaScript stripped out (deliberately — a
-Next.js app's client bundle expects to run against its own server and
-breaks in confusing, silent ways if just dropped onto a static host), so:
+**What doesn't work here:** anything that needs a server. So:
 
 - Contact/booking/affiliate/seminar forms render but don't submit
 - Login/signup, filter buttons, and the mobile menu don't do anything
@@ -26,7 +25,7 @@ Stripe/Resend in test mode), the real app needs to run on a real Node
 host — see the main branch's `README.md` for a Vercel deploy.
 
 Regenerated with a small Playwright script that visits each real route,
-waits for its entrance animations to finish, and saves the settled DOM as
-a plain HTML file with all `<script>` tags removed. See
-`content/source/CLIENT-AUDIT.md` on the main branch for what's real
-content vs. placeholder.
+scrolls the full page to trigger every `whileInView` entrance animation,
+waits for it to settle, and saves the DOM as a plain HTML file with all
+`<script>` tags removed. See `content/source/CLIENT-AUDIT.md` on the main
+branch for what's real content vs. placeholder.
