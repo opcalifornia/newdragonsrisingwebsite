@@ -82,10 +82,10 @@ export function SiteHeader() {
           </Link>
 
           <Link
-            href="/join"
-            className="hidden rounded-sm border border-red-core px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-core lg:block"
+            href="/trial"
+            className="hidden rounded-sm bg-red-core px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-highlight lg:block"
           >
-            Join
+            Start Free
           </Link>
 
           <Link href="/cart" aria-label="Cart" className="relative lg:hidden">
@@ -134,11 +134,20 @@ export function SiteHeader() {
             </li>
             <li>
               <Link
-                href="/join"
-                className="mt-2 block rounded-sm border border-red-core px-2 py-3 text-center text-white"
+                href="/trial"
+                className="mt-2 block rounded-sm bg-red-core px-2 py-3 text-center font-medium text-white"
                 onClick={() => setOpen(false)}
               >
-                Join
+                Start Free
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/join"
+                className="block rounded-sm border border-red-core px-2 py-3 text-center text-white"
+                onClick={() => setOpen(false)}
+              >
+                Membership
               </Link>
             </li>
           </ul>

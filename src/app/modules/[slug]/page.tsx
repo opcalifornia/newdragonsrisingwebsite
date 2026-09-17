@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllModules, getModuleBySlug } from "@/lib/data/modules";
+import { isFreePreviewLesson } from "@/lib/data/trial-offer";
 import { getInstructorBySlug } from "@/lib/content/instructors";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { RattanDivider } from "@/components/ui/rattan-divider";
@@ -146,7 +147,17 @@ export default async function ModuleDetailPage({
                     <p className="font-medium text-white">{unit.title}</p>
                     <ul className="mt-2 space-y-1 text-sm text-text-muted">
                       {unit.lessons.map((lesson) => (
-                        <li key={lesson.id}>{lesson.title}</li>
+                        <li key={lesson.id} className="flex items-center gap-3">
+                          <span>{lesson.title}</span>
+                          {isFreePreviewLesson(slug, lesson.id) && (
+                            <Link
+                              href="/trial"
+                              className="rounded-full border border-red-core px-2 py-0.5 text-xs text-white transition-colors hover:bg-red-core"
+                            >
+                              Free
+                            </Link>
+                          )}
+                        </li>
                       ))}
                     </ul>
                   </div>

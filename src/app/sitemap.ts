@@ -9,6 +9,7 @@ import { legalNav } from "@/lib/site-config";
 
 const staticRoutes = [
   "",
+  "/trial",
   "/about",
   "/about/mestizo-method",
   "/about/lineage",

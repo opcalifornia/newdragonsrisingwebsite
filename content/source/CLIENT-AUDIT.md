@@ -44,6 +44,8 @@ attorney time before launch.
 | No dedicated Mestizo Method page | The full history/story is buried mid-scroll on the homepage | Given its own page with proper structure |
 | No individual instructor pages | Bios are homepage text blocks only | Instructor index + detail page per person, structured schema so more can be added |
 | No In Memoriam page for Rudy Torres Jr. | His story is folded into the Mestizo Method narrative rather than honored on its own | Dedicated, deliberately quiet/restrained page |
+| No way to try anything before paying | Competitors in this market (e.g. Robinson's Taekwondo in Sacramento, 1975, running on a martial-arts-specific marketing platform) lead with a free or low-cost intro offer and capture the lead with a 3-field form. The old NDR site had no trial, no offer, and no lead capture of any kind — a visitor's only options were to pay full price or leave | New `/trial` funnel gives away one real unit of one module (currently Module 1 of Esgrima Basics) for name + email + optional phone. Wired into the header, the homepage hero, the `/join` Student tier, and "Free" badges in the module catalog. **Which module and how much of it is the client's call** |
+| Membership "Get Started" buttons | The three tier buttons on the membership page were rendered as `<button>` with no handler — the site's highest-intent clicks did nothing at all. Same for the "Book Now" pill on Book Online, which was a `<span>` | All four now navigate: Student → the free trial, Association Member → contact, Affiliate School → the application form, Book Now → the booking form |
 
 ## Trust / moderation
 

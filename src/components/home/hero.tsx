@@ -162,16 +162,16 @@ export function Hero() {
           className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
           <Link
-            href="/about/mestizo-method"
+            href="/trial"
             className="rounded-sm bg-red-core px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-red-highlight"
           >
-            Explore the Mestizo Method
+            Start Free — First Lessons On Us
           </Link>
           <Link
-            href="/join"
+            href="/about/mestizo-method"
             className="rounded-sm border border-white/25 px-8 py-3 text-sm font-medium text-white transition-colors hover:border-white"
           >
-            Join New Dragons Rising
+            Explore the Mestizo Method
           </Link>
         </motion.div>
       </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Reveal } from "@/components/motion/reveal";
 import { RattanDivider } from "@/components/ui/rattan-divider";
 import { BookingForm } from "@/components/booking/booking-form";
@@ -49,15 +50,18 @@ export default function BookOnlinePage() {
                 <span className="font-display text-lg text-red-highlight">
                   ${s.priceUsd}
                 </span>
-                <span
-                  className={
-                    s.status === "Open"
-                      ? "rounded-full border border-red-core px-3 py-1 text-xs text-white"
-                      : "rounded-full border border-surface-border px-3 py-1 text-xs text-text-muted"
-                  }
-                >
-                  {s.status === "Open" ? "Book Now" : "Ended"}
-                </span>
+                {s.status === "Open" ? (
+                  <Link
+                    href="#book"
+                    className="rounded-full border border-red-core px-3 py-1 text-xs text-white transition-colors hover:bg-red-core"
+                  >
+                    Book Now
+                  </Link>
+                ) : (
+                  <span className="rounded-full border border-surface-border px-3 py-1 text-xs text-text-muted">
+                    Ended
+                  </span>
+                )}
               </div>
             </div>
           ))}
@@ -67,7 +71,7 @@ export default function BookOnlinePage() {
       <RattanDivider className="my-14" />
 
       <Reveal>
-        <h2 className="font-display text-2xl text-white">
+        <h2 id="book" className="scroll-mt-24 font-display text-2xl text-white">
           Request a Class Trial or Private Lesson
         </h2>
         <div className="mt-6">

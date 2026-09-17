@@ -176,6 +176,37 @@ same caveat as Stripe: the unconfigured-path fallback was verified
 end-to-end (all three forms filled and submitted against the running
 dev server), the actual send should get one real test before launch.
 
+## Trial funnel (`/trial`)
+
+The site's front door for someone who isn't ready to buy: it gives away
+one real unit of one module — currently Module 1 of Esgrima Basics, the
+only Beginner module with no prerequisites — in exchange for name, email
+and an optional phone number. Three fields, because every extra field
+costs completions and the dojo can ask the rest on the follow-up call.
+
+- `src/lib/data/trial-offer.ts` — which module and which unit are given
+  away (`TRIAL_MODULE_SLUG` / `TRIAL_FREE_UNIT_INDEX`). Everything else
+  derives from the real module data, so the trial page, the "Free" badges
+  on the module detail page, and the unlock screen can't drift apart.
+  **Which module and how much of it is the client's call — confirm before
+  launch.**
+- `src/app/trial/page.tsx` + `src/components/trial/trial-form.tsx` —
+  the landing page and lead capture. On submit the lessons unlock on the
+  page immediately rather than behind a "check your email" step; the
+  visitor already proved intent and a mail round-trip is one more place
+  to lose them.
+- Submissions go through the same `/api/contact` endpoint as every other
+  form, as `formType: "trial"`, subject-lined for a same-day follow-up.
+
+Entry points wired to it: the header CTA ("Start Free"), the homepage
+hero's primary button, the Student tier on `/join`, and a "Free" badge on
+each previewed lesson in the module catalog.
+
+**Until `RESEND_API_KEY` is set, trial leads are lost** — the lessons
+still unlock, but nobody is notified. The unlock screen says so plainly
+rather than failing silently. This is the single highest-value reason to
+connect email.
+
 ## Analytics (Vercel Analytics)
 
 `@vercel/analytics` is wired in but consent-gated: the cookie banner

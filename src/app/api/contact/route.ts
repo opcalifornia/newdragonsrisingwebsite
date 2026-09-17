@@ -52,11 +52,20 @@ const SeminarRegistrationSchema = z.object({
   email: z.email(),
 });
 
+const TrialSchema = z.object({
+  formType: z.literal("trial"),
+  moduleTitle: z.string().min(1),
+  name: z.string().min(1),
+  email: z.email(),
+  phone: z.string().optional(),
+});
+
 const RequestSchema = z.discriminatedUnion("formType", [
   ContactSchema,
   BookingSchema,
   AffiliateSchema,
   SeminarRegistrationSchema,
+  TrialSchema,
 ]);
 
 const subjects = {
@@ -64,6 +73,8 @@ const subjects = {
   booking: "New booking request",
   affiliate: "New affiliate school application",
   seminar: "New (free) seminar registration",
+  // Worth answering fast — this person is mid-lesson and warm right now.
+  trial: "New free-trial signup — follow up today",
 };
 
 export async function POST(request: Request) {
